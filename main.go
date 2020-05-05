@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 
+	"github.com/nelsonmhjr/bank_service/controllers"
+
 	"github.com/gin-gonic/gin"
 	"github.com/nelsonmhjr/bank_service/models"
 )
@@ -18,6 +20,8 @@ func setupRouter() *gin.Engine {
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
 	})
+
+	r.POST("/accounts", controllers.CreateAccounts)
 
 	// Authorized group (uses gin.BasicAuth() middleware)
 	// Same than:
