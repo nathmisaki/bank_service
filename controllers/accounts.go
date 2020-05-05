@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateAccounts is used to create an Account with the given the data
 func CreateAccounts(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	c.JSON(http.StatusCreated, gin.H{"status": "created"})
 }

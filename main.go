@@ -21,8 +21,6 @@ func setupRouter() *gin.Engine {
 		c.String(http.StatusOK, "pong")
 	})
 
-	r.POST("/accounts", controllers.CreateAccounts)
-
 	// Authorized group (uses gin.BasicAuth() middleware)
 	// Same than:
 	// authorized := r.Group("/")
@@ -48,6 +46,8 @@ func setupRouter() *gin.Engine {
 			c.JSON(http.StatusOK, gin.H{"status": "ok"})
 		}
 	})
+
+	r.POST("/accounts", controllers.CreateAccounts)
 
 	return r
 }
