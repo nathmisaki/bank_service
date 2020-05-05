@@ -21,7 +21,7 @@ func SetupModels() *gorm.DB {
 		panic("Failed to connect to database!")
 	}
 
-	db.AutoMigrate(&BankAccount{})
+	db.AutoMigrate(&BankAccount{}, &OperationType{}, &Transaction{})
 
 	return db
 }
