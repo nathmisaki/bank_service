@@ -11,10 +11,11 @@ For me, some project has some requirements to have a better productivity:
 1. **Easy to Run**, preferably, one comand to run. So we could ramp up someone new fast
 2. **Tests running from scratch**, the tests should not depend on nothing outside of the provided here
 3. **BDD workflow**, specially with integration tests
-4. **Coverage control on CI**, that should be implemented using a Continuous Integration Tool. It's not the proposal of this POC
-5. **Code Quality Check**, such as [![Maintainability](https://api.codeclimate.com/v1/badges/0f7c53f39dba077e3a50/maintainability)](https://codeclimate.com/github/nelsonmhjr/bank_service/maintainability)
+4. **Tests control on CI**, such as [![CircleCI](https://circleci.com/gh/nelsonmhjr/bank_service.svg?style=shield)](<LINK>) :point_left: click to see details
+5. **Code Quality Check**, such as [![Maintainability](https://api.codeclimate.com/v1/badges/0f7c53f39dba077e3a50/maintainability)](https://codeclimate.com/github/nelsonmhjr/bank_service/maintainability) :point_left: click to see details
 
-Why BDD and not TDD? Since it's an Rest API, the Requests and JSON Responses are the contract. So It's importante to have that in check always
+Why BDD and not TDD? Since it's an Rest API, the Requests and JSON Responses are the contract. So It's importante to have integration tests.
+But Unit Test are also a must have on the project.
 
 ## Instalation and Running
 
