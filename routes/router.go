@@ -1,8 +1,6 @@
 package routes
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/nelsonmhjr/bank_service/controllers"
@@ -17,9 +15,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	})
 
 	// Ping test
-	r.GET("/ping", func(c *gin.Context) {
-		c.String(http.StatusOK, "pong")
-	})
+	r.GET("/ping", controllers.Ping)
 
 	r.GET("/accounts/:accountId", controllers.FindAccount)
 	r.POST("/accounts", controllers.CreateAccounts)
