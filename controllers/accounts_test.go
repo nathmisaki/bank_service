@@ -6,20 +6,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/http/httptest"
 
 	"github.com/nelsonmhjr/bank_service/controllers"
 	"github.com/nelsonmhjr/bank_service/models"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
-
-func performRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
-	req, _ := http.NewRequest(method, path, nil)
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-	return w
-}
 
 var _ = Describe("Accounts", func() {
 	AfterEach(func() {

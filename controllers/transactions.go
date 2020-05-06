@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -24,8 +23,9 @@ func CreateTransactions(c *gin.Context) {
 	var data TransactionToCreate
 	err := c.ShouldBind(&data)
 	if err != nil {
-		fmt.Println(err)
-		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "Invalid Data"})
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error":         "Invalid Data",
+			"error_message": err.Error()})
 		return
 	}
 	transaction := models.Transaction{BankAccountID: data.AccountID,
