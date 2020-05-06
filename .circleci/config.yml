@@ -34,5 +34,5 @@ jobs:
 
       # specify any bash command here prefixed with `run: `
       - run: go mod download
-      - run: go get -u github.com/onsi/ginkgo/ginkg
+      - run: go get -u github.com/onsi/ginkgo/ginkgo
       - run: go test -v ./...
