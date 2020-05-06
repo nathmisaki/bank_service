@@ -24,5 +24,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	r.GET("/accounts/:accountId", controllers.FindAccount)
 	r.POST("/accounts", controllers.CreateAccounts)
 
+	r.POST("/transactions", controllers.CreateTransactions)
+
 	return r
 }

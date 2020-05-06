@@ -14,5 +14,5 @@ type Transaction struct {
 	OperationTypeID uint
 	OperationType   OperationType
 	Amount          float64
-	ExecutedAt      time.Time
+	EventDate       time.Time
 }
