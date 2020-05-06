@@ -48,7 +48,7 @@ But there is all flavors to you...
 ### Running the app using Docker
 
 Docker runs the app using [CompileDaemon](https://github.com/githubnemo/CompileDaemon), it comes with HotReload Feature.
-It keeps monitoring .go files for changes and rebuild the whole app.
+It keeps monitoring `.go` files for changes and rebuild the whole app.
 
 The Docker Compose share the root of this directory with the container as a shared volume.
 So it make faster to change something locally and check the change in the service, without having to rebuild the image.
