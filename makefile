@@ -13,16 +13,19 @@ down:
 	docker-compose down
 
 test:
-	docker-compose run api go test -v -cover ./...
+	docker-compose run api go test -v -cover -coverprofile coverage.out ./...
 
 test_local:
-	godotenv go test -v -cover ./...
+	godotenv go test -v -cover -coverprofile coverage.out ./...
 
 test_doc: 
-	docker-compose run api ginkgo -r --v --reportPassed -cover 
+	docker-compose run api ginkgo -r --v --reportPassed -cover -coverprofile coverage.out
 
 test_local_debug:
-	DEBUG_TEST=true godotenv ginkgo -r --v --reportPassed --trace -cover
+	DEBUG_TEST=true godotenv ginkgo -r --v --reportPassed --trace -cover -coverprofile coverage.out
+
+cover_report:
+	go tool cover -html=coverage.out
 
 clean: down
 	@echo "=============cleaning up============="

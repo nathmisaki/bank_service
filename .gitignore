@@ -1,3 +1,4 @@
 api
 **.coverprofile
 .env
+coverage.out
