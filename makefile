@@ -7,7 +7,7 @@ up: default
 	docker-compose up -d
 
 logs:
-	docker-compose logs -f
+	docker-compose logs -f --tail=100 -t api
 
 down:
 	docker-compose down
