@@ -20,6 +20,5 @@ func SetupServer() *httptest.Server {
 	gin.SetMode(gin.TestMode)
 	db := models.SetupModels(gin.Mode())
 	ts := httptest.NewServer(routes.SetupRouter(db))
-	defer ts.Close()
 	return ts
 }

@@ -16,6 +16,7 @@ services:
       DB_PORT: 5432
       DB_NAME_PREFIX: bank_service
       DB_SSLMODE: disable
+      GIN_MODE: debug
     networks:
       - backend
 
