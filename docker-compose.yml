@@ -14,7 +14,7 @@ services:
       DB_USER: bank_service
       DB_PASSWORD: yQGKSuS8tC
       DB_PORT: 5432
-      DB_NAME: bank_service
+      DB_NAME_PREFIX: bank_service
       DB_SSLMODE: disable
     networks:
       - backend
@@ -24,10 +24,11 @@ services:
     environment:
       POSTGRES_PASSWORD: yQGKSuS8tC
       POSTGRES_USER: bank_service
-      POSTGRES_DB: bank_service
+      POSTGRES_MULTIPLE_DATABASES: bank_service_development,bank_service_test
     ports:
       - 5432:5432
     volumes:
+      - ./setup/postgres_init:/docker-entrypoint-initdb.d
       - db-data:/var/lib/postgresql/data
     networks:
       - backend

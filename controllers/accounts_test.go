@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
+	"github.com/gin-gonic/gin"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -23,7 +24,8 @@ var _ = Describe("Accounts", func() {
 	Describe("FindAccount GET /accounts/:accountId", func() {
 		Context("Without a matching BankAccount with the matchin ID", func() {
 			It("Should render a Bad Request", func() {
-				db := models.SetupModels()
+				gin.SetMode(gin.TestMode)
+				db := models.SetupModels(gin.Mode())
 				r := routes.SetupRouter(db)
 
 				w := performRequest(r, "GET", "/accounts/1")
