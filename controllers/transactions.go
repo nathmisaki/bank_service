@@ -34,10 +34,12 @@ func CreateTransactions(c *gin.Context) {
 		EventDate:       time.Now()}
 
 	db.Create(&transaction)
+	db.Preload("OperationType").Find(&transaction)
 
 	c.JSON(http.StatusCreated, gin.H{"status": "created", "transaction": gin.H{
-		"id":         transaction.ID,
-		"account_id": transaction.BankAccountID,
-		"amount":     transaction.Amount,
-		"event_date": transaction.EventDate}})
+		"id":             transaction.ID,
+		"account_id":     transaction.BankAccountID,
+		"operation_type": transaction.OperationType.Description,
+		"amount":         transaction.Amount,
+		"event_date":     transaction.EventDate}})
 }
