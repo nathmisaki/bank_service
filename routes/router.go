@@ -8,6 +8,7 @@ import (
 	"github.com/nelsonmhjr/bank_service/controllers"
 )
 
+// SetupRouter defines routes, middlewares and db variable to controllers
 func SetupRouter(db *gorm.DB) *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Recovery())

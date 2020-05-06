@@ -12,14 +12,16 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+var Db *gorm.DB
+var Ts *httptest.Server
+
 func TestControllers(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Controllers Suite")
 }
 
-func SetupServer() (*httptest.Server, *gorm.DB) {
+var _ = BeforeSuite(func() {
 	gin.SetMode(gin.TestMode)
-	db := models.SetupModels(gin.Mode())
-	ts := httptest.NewServer(routes.SetupRouter(db))
-	return ts, db
-}
+	Db = models.SetupModels(gin.Mode())
+	Ts = httptest.NewServer(routes.SetupRouter(Db))
+})
