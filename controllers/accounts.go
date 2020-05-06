@@ -14,8 +14,8 @@ type AccountToCreate struct {
 	DocumentNumber string `form:"document_number" json:"document_number" binding:"required"`
 }
 
-// POST /accounts
-// CreateAccounts is used to create an BankAccount with the given data
+// CreateAccounts handles POST /accounts
+// is used to create an BankAccount with the given data
 func CreateAccounts(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var data AccountToCreate
@@ -35,8 +35,8 @@ func CreateAccounts(c *gin.Context) {
 		"document_number": bankAccount.DocumentNumber}})
 }
 
-// GET /accounts/:accountId
-// FindAccount is used to fetch information about an BankAccount
+// FindAccount handles GET /accounts/:accountId
+// is used to fetch information about an BankAccount
 func FindAccount(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 

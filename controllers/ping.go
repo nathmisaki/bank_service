@@ -6,7 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Ping famous request for pong
+// Ping handles GET /ping
+// famous request for pong
 func Ping(c *gin.Context) {
 	c.String(http.StatusOK, "pong")
 }

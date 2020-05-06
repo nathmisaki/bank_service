@@ -10,15 +10,18 @@ import (
 	"github.com/nelsonmhjr/bank_service/models"
 )
 
-type transactionToCreate struct {
+// TransactionToCreate validates input data for CreateTransactions
+type TransactionToCreate struct {
 	AccountID       uint    `json:"account_id" binding:"required"`
 	OperationTypeID uint    `json:"operation_type" binding:"required"`
 	Amount          float64 `json:"amount" binding:"required"`
 }
 
+// CreateTransactions handles POST /transactions requests
+// creates a Transaction with the given data using TransactionToCreate
 func CreateTransactions(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	var data transactionToCreate
+	var data TransactionToCreate
 	err := c.ShouldBind(&data)
 	if err != nil {
 		fmt.Println(err)
