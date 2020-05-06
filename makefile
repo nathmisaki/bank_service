@@ -18,8 +18,11 @@ test:
 test_local:
 	godotenv go test -v -cover ./...
 
+test_doc: 
+	docker-compose run api ginkgo -r --v --reportPassed -cover 
+
 test_local_debug:
-	DEBUG_TEST=true godotenv go test -v -cover ./...
+	DEBUG_TEST=true godotenv ginkgo -r --v --reportPassed --trace -cover
 
 clean: down
 	@echo "=============cleaning up============="
