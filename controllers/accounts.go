@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/nelsonmhjr/bank_service/models"
@@ -10,7 +9,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type accountToCreate struct {
+// AccountToCreate validates the input to CreateAccount
+type AccountToCreate struct {
 	DocumentNumber string `form:"document_number" json:"document_number" binding:"required"`
 }
 
@@ -18,11 +18,13 @@ type accountToCreate struct {
 // CreateAccounts is used to create an BankAccount with the given data
 func CreateAccounts(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	var data accountToCreate
+	var data AccountToCreate
 	err := c.ShouldBind(&data)
 	if err != nil {
-		fmt.Println(err)
-		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "Invalid Data"})
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error":         "Invalid Data",
+			"error_message": err.Error(),
+		})
 		return
 	}
 	bankAccount := models.BankAccount{DocumentNumber: data.DocumentNumber}

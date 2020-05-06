@@ -1,11 +1,14 @@
 package controllers_test
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 
+	"github.com/nelsonmhjr/bank_service/controllers"
 	"github.com/nelsonmhjr/bank_service/models"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -23,17 +26,17 @@ var _ = Describe("Accounts", func() {
 		Db.Exec("Truncate bank_accounts")
 	})
 
+	var requestBody = func(resp *http.Response) string {
+		bodyBytes, err := ioutil.ReadAll(resp.Body)
+		Expect(err).To(BeNil())
+		return string(bodyBytes)
+	}
+
 	Describe("FindAccount GET /accounts/:accountId", func() {
 		var request = func(id uint) *http.Response {
 			resp, err := http.Get(fmt.Sprintf("%s/accounts/%d", Ts.URL, id))
 			Expect(err).To(BeNil())
 			return resp
-		}
-
-		var requestBody = func(resp *http.Response) string {
-			bodyBytes, err := ioutil.ReadAll(resp.Body)
-			Expect(err).To(BeNil())
-			return string(bodyBytes)
 		}
 
 		Context("without a matching BankAccount with the matchin ID", func() {
@@ -58,10 +61,32 @@ var _ = Describe("Accounts", func() {
 	})
 
 	Describe("CreateAccounts POST /accounts", func() {
+		var request = func(accToCreate controllers.AccountToCreate) *http.Response {
+			body, err := json.Marshal(accToCreate)
+			Expect(err).To(BeNil())
+			resp, err := http.Post(fmt.Sprintf("%s/accounts/", Ts.URL),
+				"application/json", bytes.NewBuffer(body))
+			Expect(err).To(BeNil())
+			return resp
+		}
+
 		Context("without a json body", func() {
 			It("should render a UnprocessableEntity Status Code", func() {
-				// resp, err := http.Get(fmt.Sprintf("%s/accounts/", Ts.URL))
+				resp := request(controllers.AccountToCreate{})
+				Expect(resp.StatusCode).To(Equal(422))
+			})
+		})
 
+		Context("with a valid json body", func() {
+			It("should create the account", func() {
+				var cntBef, cntAft int
+				Db.Model(&models.BankAccount{}).Count(&cntBef)
+				resp := request(controllers.AccountToCreate{
+					DocumentNumber: "12345678"})
+
+				Expect(resp.StatusCode).To(Equal(201))
+				Db.Model(&models.BankAccount{}).Count(&cntAft)
+				Expect(cntAft).To(Equal(cntBef + 1))
 			})
 		})
 	})
