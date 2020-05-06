@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"github.com/nelsonmhjr/bank_service/models"
 	"github.com/nelsonmhjr/bank_service/routes"
 	. "github.com/onsi/ginkgo"
@@ -16,9 +17,9 @@ func TestControllers(t *testing.T) {
 	RunSpecs(t, "Controllers Suite")
 }
 
-func SetupServer() *httptest.Server {
+func SetupServer() (*httptest.Server, *gorm.DB) {
 	gin.SetMode(gin.TestMode)
 	db := models.SetupModels(gin.Mode())
 	ts := httptest.NewServer(routes.SetupRouter(db))
-	return ts
+	return ts, db
 }

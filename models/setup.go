@@ -52,7 +52,7 @@ func SetupModels(ginMode string) *gorm.DB {
 		db.Create(&op)
 	}
 
-	defer db.Close()
+	db.LogMode(true)
 
 	return db
 }

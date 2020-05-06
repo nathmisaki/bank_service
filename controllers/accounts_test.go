@@ -1,15 +1,15 @@
 package controllers_test
 
 import (
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+	"github.com/nelsonmhjr/bank_service/models"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-
-	"github.com/nelsonmhjr/bank_service/models"
-	"github.com/nelsonmhjr/bank_service/routes"
 )
 
 func performRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
@@ -20,17 +20,37 @@ func performRequest(r http.Handler, method, path string) *httptest.ResponseRecor
 }
 
 var _ = Describe("Accounts", func() {
+	var ts *httptest.Server
+	var db *gorm.DB
+	BeforeEach(func() {
+		ts, db = SetupServer()
+		db.Begin()
+	})
+
+	AfterEach(func() {
+		db.Rollback()
+	})
 
 	Describe("FindAccount GET /accounts/:accountId", func() {
 		Context("Without a matching BankAccount with the matchin ID", func() {
 			It("Should render a Bad Request", func() {
-				gin.SetMode(gin.TestMode)
-				db := models.SetupModels(gin.Mode())
-				r := routes.SetupRouter(db)
+				resp, err := http.Get(fmt.Sprintf("%s/accounts/1", ts.URL))
+				Expect(err).To(BeNil())
 
-				w := performRequest(r, "GET", "/accounts/1")
+				Expect(resp.StatusCode).To(Equal(400))
+			})
+		})
 
-				Expect(w.Code).To(Equal(400))
+		Context("With a matching BankAccount ID", func() {
+			It("Should render JSON with id and document_number", func() {
+				bankAcc := models.BankAccount{DocumentNumber: "123456"}
+				db.Create(&bankAcc)
+				resp, err := http.Get(fmt.Sprintf("%s/accounts/%d", ts.URL, bankAcc.ID))
+				Expect(err).To(BeNil())
+				bodyBytes, err := ioutil.ReadAll(resp.Body)
+				Expect(err).To(BeNil())
+				bodyString := string(bodyBytes)
+				Expect(bodyString).To(MatchJSON(fmt.Sprintf(`{"document_number":"%s","account_id":%d}`, bankAcc.DocumentNumber, bankAcc.ID)))
 			})
 		})
 	})

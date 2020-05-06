@@ -6,7 +6,7 @@ services:
       - 8080:8080
     image: api-dev
     volumes:
-      - .:/go/src/api
+      - ./:/go/src/api
     depends_on:
       - db
     environment: 

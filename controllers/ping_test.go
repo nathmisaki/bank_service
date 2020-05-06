@@ -13,7 +13,7 @@ import (
 var _ = Describe("Ping", func() {
 	var ts *httptest.Server
 	BeforeEach(func() {
-		ts = SetupServer()
+		ts, _ = SetupServer()
 	})
 
 	Context("GET /ping", func() {
