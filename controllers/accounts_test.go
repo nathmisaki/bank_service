@@ -24,11 +24,10 @@ var _ = Describe("Accounts", func() {
 	var db *gorm.DB
 	BeforeEach(func() {
 		ts, db = SetupServer()
-		db.Begin()
 	})
 
 	AfterEach(func() {
-		db.Rollback()
+		db.Exec("Truncate bank_accounts")
 	})
 
 	Describe("FindAccount GET /accounts/:accountId", func() {

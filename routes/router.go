@@ -1,13 +1,19 @@
 package routes
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/nelsonmhjr/bank_service/controllers"
 )
 
 func SetupRouter(db *gorm.DB) *gin.Engine {
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Recovery())
+	if gin.Mode() != gin.TestMode || os.Getenv("DEBUG_TEST") == "true" {
+		r.Use(gin.Logger())
+	}
 	// Provide db variable to controllers
 	r.Use(func(c *gin.Context) {
 		c.Set("db", db)

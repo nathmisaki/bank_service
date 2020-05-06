@@ -24,7 +24,7 @@ func SetupModels(ginMode string) *gorm.DB {
 	connStr := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
 		os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_USER"),
 		dbName, os.Getenv("DB_PASSWORD"), os.Getenv("DB_SSLMODE"))
-	fmt.Printf("Connecting to Database %s\n", dbName)
+	// fmt.Printf("Connecting to Database %s\n", dbName)
 
 	db, err := gorm.Open("postgres", connStr)
 
@@ -52,7 +52,9 @@ func SetupModels(ginMode string) *gorm.DB {
 		db.Create(&op)
 	}
 
-	db.LogMode(true)
+	if ginMode == gin.DebugMode || os.Getenv("DEBUG_TEST") == "true" {
+		db.LogMode(true)
+	}
 
 	return db
 }
