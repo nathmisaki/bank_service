@@ -11,4 +11,4 @@ RUN go get github.com/githubnemo/CompileDaemon
 
 WORKDIR /go/src/github.com/nelsonmhjr/bank_service
 COPY . .
-ENTRYPOINT CompileDaemon -log-prefix=false -build="go build -o api main.go" -command="./api"
+CMD CompileDaemon -log-prefix=false -build="go build -o api main.go" -command="./api"
