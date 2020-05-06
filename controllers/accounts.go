@@ -9,17 +9,12 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// AccountToCreate validates the input to CreateAccount
-type AccountToCreate struct {
-	DocumentNumber string `form:"document_number" json:"document_number" binding:"required"`
-}
-
 // CreateAccounts handles POST /accounts
 // is used to create an BankAccount with the given data
 func CreateAccounts(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	var data AccountToCreate
-	err := c.ShouldBind(&data)
+	bankAccount := models.BankAccount{}
+	err := bankAccount.ValidateAndCreate(db, c)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error":         "Invalid Data",
@@ -27,8 +22,6 @@ func CreateAccounts(c *gin.Context) {
 		})
 		return
 	}
-	bankAccount := models.BankAccount{DocumentNumber: data.DocumentNumber}
-	db.Create(&bankAccount)
 
 	c.JSON(http.StatusCreated, gin.H{"status": "created", "account": gin.H{
 		"account_id":      bankAccount.ID,

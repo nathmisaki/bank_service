@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/nelsonmhjr/bank_service/controllers"
 	"github.com/nelsonmhjr/bank_service/models"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -53,7 +52,7 @@ var _ = Describe("Accounts", func() {
 	})
 
 	Describe("CreateAccounts POST /accounts", func() {
-		var request = func(accToCreate controllers.AccountToCreate) *http.Response {
+		var request = func(accToCreate models.AccountToCreate) *http.Response {
 			body, err := json.Marshal(accToCreate)
 			Expect(err).To(BeNil())
 			resp, err := http.Post(fmt.Sprintf("%s/accounts/", Ts.URL),
@@ -64,7 +63,7 @@ var _ = Describe("Accounts", func() {
 
 		Context("without a json body", func() {
 			It("should render a UnprocessableEntity Status Code", func() {
-				resp := request(controllers.AccountToCreate{})
+				resp := request(models.AccountToCreate{})
 				Expect(resp.StatusCode).To(Equal(422))
 			})
 		})
@@ -73,7 +72,7 @@ var _ = Describe("Accounts", func() {
 			It("should create the account", func() {
 				var cntBef, cntAft int
 				Db.Model(&models.BankAccount{}).Count(&cntBef)
-				resp := request(controllers.AccountToCreate{
+				resp := request(models.AccountToCreate{
 					DocumentNumber: "12345678"})
 
 				Expect(resp.StatusCode).To(Equal(201))
