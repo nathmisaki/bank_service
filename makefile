@@ -15,11 +15,11 @@ down:
 test:
 	docker-compose run api go test -v -cover -coverprofile coverage.out ./...
 
-test_local:
-	godotenv go test -v -cover -coverprofile coverage.out ./...
-
 test_doc: 
 	docker-compose run api ginkgo -r --v --reportPassed -cover -coverprofile coverage.out
+
+test_local:
+	godotenv go test -v -cover -coverprofile coverage.out ./...
 
 test_local_debug:
 	DEBUG_TEST=true godotenv ginkgo -r --v --reportPassed --trace -cover -coverprofile coverage.out
